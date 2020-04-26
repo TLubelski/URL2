@@ -1,13 +1,21 @@
 #ifndef COMMON_HH
 #define COMMON_HH
 
+#include "LZespolona.hh"
 #include <cmath>
 
-/*Definicja rozmiaru wektora/macierzy*/
-#define ROZMIAR 3
+#define _ROZMIAR 5
 
 const double eps = 0.000001; //epsilon
 
-bool cmp(double l1, double l2);
+/*Dokladne porownania*/
+
+bool cmp(double l1, double l2); // double z double
+
+bool cmp(const LZ &z1, const LZ &z2); // LZ z LZ
+
+bool cmp(const LZ &z1, double l1); //LZ z dobule
+
+bool cmp(double l1, const LZ &z2); //double z LZ
 
 #endif

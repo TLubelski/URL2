@@ -1,13 +1,46 @@
+#include "common.hh"
 #include "Wektor.hh"
-#include "MacierzKw.hh"
-#include "UklRowL.hh"
+//#include "MacierzKw.hh"
+//#include "UklRowL.hh"
+
 #include <iostream>
 #include <fstream>
 
 using namespace std;
 
+typedef Wektor<LZ,5> WektZ;
+
 int main()
 {
+    fstream dane;
+    dane.open("dane.dat", ios::in);
+    if (!dane.good())
+    {
+        cerr << "[!]Niepoprawny plik" << endl;
+        exit(1);
+    }
+
+    WektZ w1, w2;
+
+    dane >> w1 >> w2;
+    
+    cout << "Wczytano: " << endl << w1 << endl << w2 << endl << endl;
+
+    cout << "dod: " << w1 + w2 << endl;
+    cout << "odejm: " << w1 - w2 << endl;
+    cout << "index: " << w1[2] << endl;
+    cout << "monoz przez liczbe: " << 3 * w1 << endl;
+    cout << "mnoz skalar: " << w1 * w2 << endl;
+    cout << "dl: " << w1.dlugosc() << endl;
+
+
+    dane.close();
+
+
+
+
+    //########################### STARY MAIN ############################
+    /*
     UklRowL uklad_rownan;
 
     //wczytanie z pliku
@@ -33,7 +66,7 @@ int main()
 
     //zamkniecie pliku
     plik_dane.close();
-
+    */
 
     //######## TESTY WEKTOR ###########
     /*

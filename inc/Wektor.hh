@@ -1,26 +1,26 @@
 #ifndef WEKTOR_HH
 #define WEKTOR_HH
 
-#include <iostream>
-
 #include "common.hh"
 
+#include <iostream>
 
-/*Klasa opisujaca wektor*/
+
+/*Szablon opisujacy klase wektor*/
+template <typename TYP, int ROZMIAR>
 class Wektor
 {
 private:
-    double tab[ROZMIAR];
+    TYP tab[ROZMIAR];
 
 public:
     /*KONSTRUKTORY*/
     Wektor();
-    Wektor(double x, double y, double z);
-    Wektor(double *tab);
+    Wektor(TYP *tab);
 
     /*OPERATORY*/
-    const double &operator[](int index) const;
-    double &operator[](int index);
+    const TYP &operator[](int index) const;
+    TYP &operator[](int index);
     
     bool operator==(const Wektor &W2) const;
     bool operator!=(const Wektor &W2) const;
@@ -31,17 +31,22 @@ public:
     Wektor operator-(const Wektor &W2) const;
     const Wektor & operator-=(const Wektor &W2);
 
-    double operator*(const Wektor &W2) const; //iloczyn skalarny
+    TYP operator*(const Wektor &W2) const; //iloczyn skalarny
 
     /*API*/
     double dlugosc() const;
 };
 
-/*OPERATORY ZEWNETRZNE*/
-Wektor operator*(double l1, const Wektor W2); //mnozenie przez liczbe
 
-std::ostream & operator<<(std::ostream &strm, const Wektor &W);
-std::istream & operator>>(std::istream &strm, Wektor &W);
+/*OPERATORY ZEWNETRZNE*/
+template <typename TYP, int ROZMIAR>
+Wektor<TYP, ROZMIAR> operator*(double l1, const Wektor<TYP, ROZMIAR> W2); //mnozenie przez liczbe
+
+template <typename TYP, int ROZMIAR>
+std::ostream &operator<<(std::ostream &strm, const Wektor<TYP, ROZMIAR> &W);
+
+template <typename TYP, int ROZMIAR>
+std::istream &operator>>(std::istream &strm, Wektor<TYP, ROZMIAR> &W);
 
 
 #endif

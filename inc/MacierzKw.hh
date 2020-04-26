@@ -6,11 +6,12 @@
 enum Wyz{Gauss, Sarruss, Bareiss}; //wybor metody liczenia wyznacznika
 
 
-/*Klasa opisujaca macierz kwadratowa*/
+/*Szablon opisujacy klase macierz kwadratowa*/
+template<typename TYP, unsigned int ROZMIAR>
 class MacierzKw
 {
 private:
-    Wektor tab[ROZMIAR]; //kazdemu wierszowi odpowiada wektor
+    Wektor<TYP, ROZMIAR> tab[ROZMIAR]; //kazdemu wierszowi odpowiada wektor
 
     /*METODY WEWNETRZNE*/
     double w_gauss() const; //pojawil sie problem z dokladnoscia double
@@ -20,12 +21,12 @@ private:
 public:
     /*KONSTRUKTORY*/
     MacierzKw(){}
-    MacierzKw(Wektor *W); //przyjmuje tablice wektorow
-    MacierzKw(const Wektor & W1,const Wektor & W2,const Wektor & W3); //przyjmuje 3 wektory
+    MacierzKw(Wektor<TYP, ROZMIAR> *W); //przyjmuje tablice wektorow
+    MacierzKw(const Wektor<TYP, ROZMIAR> & W1,const Wektor<TYP, ROZMIAR> & W2,const Wektor<TYP, ROZMIAR> & W3); //przyjmuje 3 wektory
     
     /*OPERATORY*/
-    const Wektor & operator[](int index) const;
-    Wektor & operator[](int index);
+    const Wektor<TYP, ROZMIAR> & operator[](unsigned int index) const;
+    Wektor<TYP, ROZMIAR> & operator[](unsigned int index);
 
     bool operator==(const MacierzKw &M2) const;
     bool operator!=(const MacierzKw &M2) const;
@@ -38,7 +39,7 @@ public:
 
     MacierzKw operator*(const MacierzKw &M2) const; //mnozenie dwoch macierzy
     
-    Wektor operator*(const Wektor &W2) const; //mnozenie przez wektor
+    Wektor<TYP, ROZMIAR> operator*(const Wektor<TYP, ROZMIAR> &W2) const; //mnozenie przez wektor
 
     /*API*/
     void utworzI(); //tworzy macierz jednostkowa

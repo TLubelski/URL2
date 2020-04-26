@@ -1,4 +1,5 @@
 #include "Wektor.hh"
+
 #include <cmath>
 #include <regex>
 #include <sstream>
@@ -7,28 +8,26 @@ using namespace std;
 
 /*KONSTRUKTORY*/
 
-Wektor::Wektor()
+template <typename TYP, int ROZMIAR>
+Wektor<TYP, ROZMIAR>::Wektor()
 {
     for (int i = 0; i < ROZMIAR; i++)
         tab[i] = 0;
+    
 }
 
-Wektor::Wektor(double x, double y, double z)
-{
-    tab[0] = x;
-    tab[1] = y;
-    tab[2] = z;
-}
 
-Wektor::Wektor(double *tab)
+template <typename TYP, int ROZMIAR>
+Wektor<TYP, ROZMIAR>::Wektor(TYP *tab)
 {
     for (int i = 0; i < ROZMIAR; i++)
         this->tab[i] = tab[i];
 }
 
+
 /*OPERATORY*/
-
-const double & Wektor::operator[](int index) const
+template <typename TYP, int ROZMIAR>
+const TYP & Wektor<TYP, ROZMIAR>::operator[](int index) const
 {
     if (index < 0 || index >= ROZMIAR)
     {
@@ -38,7 +37,8 @@ const double & Wektor::operator[](int index) const
     return tab[index];
 }
 
-double & Wektor::operator[](int index)
+template <typename TYP, int ROZMIAR>
+TYP & Wektor<TYP, ROZMIAR>::operator[](int index)
 {
     if (index < 0 || index >= ROZMIAR)
     {
@@ -48,7 +48,8 @@ double & Wektor::operator[](int index)
     return tab[index];
 }
 
-bool Wektor::operator==(const Wektor &W2) const
+template <typename TYP, int ROZMIAR>
+bool Wektor<TYP, ROZMIAR>::operator==(const Wektor &W2) const
 {
     bool wynik = true;
     for (int i = 0; i < ROZMIAR; i++)
@@ -59,12 +60,14 @@ bool Wektor::operator==(const Wektor &W2) const
     return wynik;
 }
 
-bool Wektor::operator!=(const Wektor &W2) const
+template <typename TYP, int ROZMIAR>
+bool Wektor<TYP, ROZMIAR>::operator!=(const Wektor &W2) const
 {
     return !(*this == W2);
 }
 
-Wektor Wektor::operator+(const Wektor &W2) const
+template <typename TYP, int ROZMIAR>
+Wektor<TYP,ROZMIAR> Wektor<TYP, ROZMIAR>::operator+(const Wektor &W2) const
 {
     Wektor temp;
     for (int i = 0; i < ROZMIAR; i++)
@@ -72,13 +75,15 @@ Wektor Wektor::operator+(const Wektor &W2) const
     return temp;
 }
 
-const Wektor & Wektor::operator+=(const Wektor &W2)
+template <typename TYP, int ROZMIAR>
+const Wektor<TYP, ROZMIAR> & Wektor<TYP, ROZMIAR>::operator+=(const Wektor &W2)
 {
     *this = *this + W2;
     return *this;
 }
 
-Wektor Wektor::operator-(const Wektor &W2) const
+template <typename TYP, int ROZMIAR>
+Wektor<TYP, ROZMIAR> Wektor<TYP, ROZMIAR>::operator-(const Wektor &W2) const
 {
     Wektor temp;
     for (int i = 0; i < ROZMIAR; i++)
@@ -86,15 +91,17 @@ Wektor Wektor::operator-(const Wektor &W2) const
     return temp;
 }
 
-const Wektor &  Wektor::operator-=(const Wektor &W2)
+template <typename TYP, int ROZMIAR>
+const Wektor<TYP, ROZMIAR> & Wektor<TYP, ROZMIAR>::operator-=(const Wektor &W2)
 {
     *this = *this - W2;
     return *this;
 }
 
-double Wektor::operator*(const Wektor &W2) const //iloczyn skalarny
+template <typename TYP, int ROZMIAR>
+TYP Wektor<TYP, ROZMIAR>::operator*(const Wektor &W2) const //iloczyn skalarny
 {
-    double temp;
+    TYP temp;
     for (int i = 0; i < ROZMIAR; i++)
     {
         temp += tab[i] * W2.tab[i];
@@ -104,26 +111,47 @@ double Wektor::operator*(const Wektor &W2) const //iloczyn skalarny
 
 /*API*/
 
-double Wektor::dlugosc() const
+template <typename TYP, int ROZMIAR>
+double Wektor<TYP, ROZMIAR>::dlugosc() const
+{
+    double suma;
+    suma = 0;
+    for (int i = 0; i < ROZMIAR; i++)
+        suma += tab[i] * tab[i];
+    return sqrt(suma);
+    return suma;
+}
+
+/*Specjalizacja dlugosci dla LZ*/
+template <>
+double Wektor<LZ, _ROZMIAR>::dlugosc() const
 {
     double suma = 0;
-    for (int i = 0; i < ROZMIAR; i++)
-        suma += pow(tab[i], 2);
+    LZ temp;
+    
+    for (int i = 0; i < _ROZMIAR; i++)
+    { 
+        temp = tab[i] * tab[i].sprzez();
+        suma += temp.getRe();
+    }
+
     return sqrt(suma);
 }
 
+
 /*OPERATORY ZEWNETRZNE*/
 
-Wektor operator*(double l1, const Wektor W2) //mnozenie przez liczbe
+template <typename TYP, int ROZMIAR>
+Wektor<TYP, ROZMIAR> operator*(double l1, const Wektor<TYP, ROZMIAR> W2) //mnozenie przez liczbe
 {
-    Wektor temp;
+    Wektor<TYP,ROZMIAR> temp;
     for (int i = 0; i < ROZMIAR; i++)
         temp[i] = W2[i] * l1;
     return temp;
 }
 
-
-ostream & operator<<(ostream & strm, const Wektor &W)
+template <typename TYP, int ROZMIAR>
+ostream & operator<<(ostream &strm, const Wektor<TYP,ROZMIAR> &W)
 {
     strm << "|";
     for(int i = 0; i < ROZMIAR-1; i++)
@@ -135,7 +163,8 @@ ostream & operator<<(ostream & strm, const Wektor &W)
     return strm;
 }
 
-istream & operator>>(istream &strm, Wektor &W)
+template <typename TYP, int ROZMIAR>
+istream & operator>>(istream &strm, Wektor<TYP,ROZMIAR> &W)
 {   
     string wzor_s = "\\|";
     string liczba = "-?\\d+.?\\d*";
@@ -169,6 +198,30 @@ istream & operator>>(istream &strm, Wektor &W)
         cerr << "[!] Incorrect input in Wektor" << endl;
         exit(1); //albo strm.setstate(ios::failbit);
     }
+
+    return strm;
+}
+
+/*Specjalizacja wczytywania dla LZ*/
+
+template <>
+istream & operator>>(istream &strm, Wektor<LZ, _ROZMIAR> &W)
+{
+    char trash;
+
+    strm >> trash;
+
+    for(int i = 0; i < _ROZMIAR; i++)
+    {
+        strm >> W[i];
+        if( !strm.good() )
+        {
+            cerr << "[!]Input error" << endl;
+            exit(1);
+        }
+    }
+
+    strm >> trash;
 
     return strm;
 }

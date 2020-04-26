@@ -3,39 +3,55 @@
 
 #include <iostream>
 
+class LZ{
+private:
+    double re;    //czesc rzeczywista
+    double im;    //czesc urojona
 
+public:
+    /*Konstruktory*/
+    LZ() : re(0), im(0){}
+    LZ(double _re, double _im) : re(_re), im(_im){}
 
-struct  LZespolona {
-  double   re;    //czesc rzeczywista
-  double   im;    //czesc urojona
+    const LZ & operator=(double l){ re = l; im = 0; return *this; } 
+    //const LZ & operator=(int l){ re = l; im = 0; return *this; }
+
+    /*SET/GET*/
+    void setRe(double re) { this->re = re; }
+    double getRe() const { return re; }
+
+    void setIm(double im) {this-> im = im; }
+    double getIm() const { return im; }
+
+    /*Metody zewnetrzne*/
+    double modul() const;
+    LZ sprzez() const ;
+
+    /*Op Arytmetyczne*/
+    LZ operator+(const LZ &z2) const;
+    const LZ & operator+=(const LZ &z2);
+    
+    LZ operator-(const LZ &z2) const;
+    const LZ & operator-=(const LZ &z2);
+    
+    LZ operator*(const LZ &z2) const;
+    const LZ & operator*=(const LZ &z2);
+
+    LZ operator*(double mnoznik) const;
+
+    LZ operator/(double dzielnik) const;
+    const LZ & operator/=(double dzielnik);
+
+    LZ operator/(const LZ &z2) const;
+    const LZ & operator/=(const LZ &z2);
+    
+    /*Op Logiczne*/
+    bool operator==(const LZ &z2) const;
+    bool operator!=(const LZ &z2) const;
 };
 
-
-/*Basic*/
-LZespolona utworzLZ(double _re, double _im); 
-
-
 /*Op strumieniowe*/
-std::istream & operator >> (std::istream & strm, LZespolona & z);
-std::ostream & operator << (std::ostream & strm, const LZespolona & z);
-
-
-/*Op Wlasne*/
-double modul(LZespolona z);
-LZespolona sprzez(LZespolona z);
-
-
-/*Op Arytmetyczne*/
-LZespolona  operator + (LZespolona  z1,  LZespolona  z2);
-LZespolona  operator - (LZespolona  z1,  LZespolona  z2);
-LZespolona  operator * (LZespolona  z1,  LZespolona  z2);
-LZespolona  operator / (LZespolona  z1,  double  dzielnik);
-LZespolona  operator / (LZespolona  z1,  LZespolona  z2);
-
-
-/*Op Logiczne*/
-bool operator == (LZespolona  z1,  LZespolona  z2);
-bool operator != (LZespolona  z1,  LZespolona  z2);
-
+std::istream &operator>>(std::istream &strm, LZ &z);
+std::ostream &operator<<(std::ostream &strm, const LZ &z);
 
 #endif

@@ -3,9 +3,9 @@
 ################
 
 #Name, headers, sources
-TARGET=UklRow
-_DEPS=common.hh Wektor.hh MacierzKw.hh UklRowL.hh
-_OBJ=common.o main.o Wektor.o MacierzKw.o UklRowL.o
+TARGET=URL2
+_DEPS=common.hh LZespolona.hh Wektor.hh #MacierzKw.hh UklRowL.hh
+_OBJ=common.o main.o LZespolona.o WektorComp.o #MacierzKwComp.o UklRowLComp.o
 
 ####DIRS###
 TRG_DIR=./
@@ -15,8 +15,8 @@ SRC_DIR=./src
 
 ###COMPILER###
 CC = g++
-CFLAGS = -Wall -pedantic -std=c++14 -iquote $(INC_DIR)
-LFLAGS = -Wall -pedantic -std=c++14 -iquote $(INC_DIR)
+CFLAGS = -Wall -pedantic -std=c++17 -iquote $(INC_DIR)
+LFLAGS = -Wall -pedantic -std=c++17 -iquote $(INC_DIR)
 
 ###FORMULA###
 DEPS = $(patsubst %,$(INC_DIR)/%,$(_DEPS))

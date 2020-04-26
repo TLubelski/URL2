@@ -1,152 +1,186 @@
 #include "LZespolona.hh"
-#include <cmath>
+#include "common.hh"
+
 #include <regex>
 #include <sstream>
 
-/* Basic*/
 
-LZespolona utworzLZ(double _re, double _im)
+/*Metody zewnetrzne*/
+
+double LZ::modul() const
 {
-  LZespolona temp;
-  temp.re = _re;
-  temp.im = _im;
-  return temp;
+    return sqrt(re * re + im * im);
 }
 
-/*Op strumieniowe*/
-
-std::istream &operator>>(std::istream &strm, LZespolona &z)
+LZ LZ::sprzez() const
 {
-  using namespace std;
-
-  stringstream ss;
-  string input;
-  smatch wynik;
-  char x; //smietnik
-
-  regex normal("\\(-?\\d+.?\\d*(\\+|-)\\d+.?\\d*i\\)");
-  regex im_only("\\(\\d+.?\\d*i\\)");
-  regex im_only_i("\\(i\\)");
-  regex im_only_mi("\\(-i\\)");
-  regex re_only("\\(-?\\d+.?\\d*\\)");
-
-  strm >> input;
-  ss << input;
-
-  if (regex_search(input, wynik, normal))
-  {
-    ss >> x >> z.re >> z.im >> x >> x;
-  }
-  else if (regex_search(input, wynik, im_only))
-  {
-    z.re = 0;
-    ss >> x >> z.im >> x >> x;
-  }
-  else if (regex_search(input, wynik, im_only_i))
-  {
-    z.re = 0;
-    z.im = 1;
-    ss >> x >> x >> x;
-  }
-  else if (regex_search(input, wynik, im_only_mi))
-  {
-    z.re = 0;
-    z.im = -1;
-    ss >> x >> x >> x >> x;
-  }
-  else if (regex_search(input, wynik, re_only))
-  {
-    ss >> x >> z.re >> x;
-    z.im = 0;
-  }
-  else
-  {
-    strm.setstate(ios::failbit);
-  }
-
-  return strm;
-}
-
-std::ostream &operator<<(std::ostream &strm, const LZespolona &z)
-{
-  strm << "(" << z.re << std::showpos << z.im << std::noshowpos << "i)";
-  return strm;
-}
-
-/*Op Wlasne*/
-
-double modul(LZespolona z)
-{
-  return sqrt(z.re * z.re + z.im * z.im);
-}
-
-LZespolona sprzez(LZespolona z)
-{
-  z.im *= (-1);
-  return z;
+    LZ tmp = *this;
+    tmp.im = -tmp.im;
+    return tmp;
 }
 
 /*Op Arytmetyczne*/
 
-LZespolona operator+(LZespolona z1, LZespolona z2)
+LZ LZ::operator+(const LZ &z2) const
 {
-  LZespolona Wynik;
+    LZ Wynik;
 
-  Wynik.re = z1.re + z2.re;
-  Wynik.im = z1.im + z2.im;
-  return Wynik;
+    Wynik.re = re + z2.re;
+    Wynik.im = im + z2.im;
+    return Wynik;
 }
 
-LZespolona operator-(LZespolona z1, LZespolona z2)
+const LZ & LZ::operator+=(const LZ &z2)
 {
-  LZespolona Wynik;
-
-  Wynik.re = z1.re - z2.re;
-  Wynik.im = z1.im - z2.im;
-  return Wynik;
+    *this = *this + z2;
+    return *this;
 }
 
-LZespolona operator*(LZespolona z1, LZespolona z2)
+LZ LZ::operator-(const LZ &z2) const
 {
-  LZespolona Wynik;
+    LZ Wynik;
 
-  Wynik.re = z1.re * z2.re - z1.im * z2.im;
-  Wynik.im = z1.re * z2.im + z1.im * z2.re;
-  return Wynik;
+    Wynik.re = re - z2.re;
+    Wynik.im = im - z2.im;
+    return Wynik;
 }
 
-LZespolona operator/(LZespolona z1, double dzielnik)
+const LZ & LZ::operator-=(const LZ &z2)
 {
-  if (dzielnik == 0)
-  {
-    std::cerr << "[!]Blad: Wykryto dzielenie przez 0" << std::endl;
-    exit(1);
-  }
-
-  LZespolona Wynik;
-  Wynik.re = z1.re / dzielnik;
-  Wynik.im = z1.im / dzielnik;
-  return Wynik;
+    *this = *this - z2;
+    return *this;
 }
 
-LZespolona operator/(LZespolona z1, LZespolona z2)
+LZ LZ::operator*(const LZ &z2) const
 {
-  double dzielnik = modul(z2) * modul(z2);
+    LZ Wynik;
 
-  return (z1 * sprzez(z2)) / dzielnik;
+    Wynik.re = re * z2.re - im * z2.im;
+    Wynik.im = re * z2.im + im * z2.re;
+    return Wynik;
+}
+
+const LZ & LZ::operator*=(const LZ &z2)
+{
+    *this = *this * z2;
+    return *this;
+}
+
+LZ LZ::operator*(double mnoznik) const
+{
+    return LZ(re * mnoznik, im * mnoznik);
+}
+
+LZ LZ::operator/(double dzielnik) const
+{
+    if ( cmp(dzielnik, 0) )
+    {
+        std::cerr << "[!]Dzielenie przez 0 w LZ" << std::endl;
+        exit(1);
+    }
+
+    LZ Wynik;
+    Wynik.re = re / dzielnik;
+    Wynik.im = im / dzielnik;
+    return Wynik;
+}
+
+const LZ & LZ::operator/=(double dzielnik)
+{
+    *this = *this / dzielnik;
+    return *this;
+}
+
+LZ LZ::operator/(const LZ &z2) const
+{
+    double dzielnik = z2.modul() * z2.modul();
+
+    return ( *this * z2.sprzez() ) / dzielnik;
+}
+
+const LZ & LZ::operator/=(const LZ &z2)
+{
+    *this = *this / z2;
+    return *this;
 }
 
 /*Op Logiczne*/
 
-bool operator==(LZespolona z1, LZespolona z2)
+bool LZ::operator==(const LZ &z2) const
 {
-  if (z1.re == z1.re && z1.im == z2.im)
-    return true;
-  else
-    return false;
+    if ( cmp(re, z2.re) && cmp(im, z2.im) )
+        return true;
+    else
+        return false;
 }
 
-bool operator!=(LZespolona z1, LZespolona z2)
+bool LZ::operator!=(const LZ &z2) const
 {
-  return !(z1 == z2);
+    return !(*this == z2);
+}
+
+
+/*Op strumieniowe*/
+std::istream &operator>>(std::istream &strm, LZ &z)
+{
+    using namespace std;
+
+    stringstream ss;
+    string input;
+    smatch wynik;
+    char x; //smietnik
+    double tmp;
+
+    regex normal("\\(-?\\d+.?\\d*(\\+|-)\\d+.?\\d*i\\)");
+    regex im_only("\\(\\d+.?\\d*i\\)");
+    regex im_only_i("\\(i\\)");
+    regex im_only_mi("\\(-i\\)");
+    regex re_only("\\(-?\\d+.?\\d*\\)");
+
+    strm >> input;
+    ss << input;
+
+    if (regex_search(input, wynik, normal))
+    {
+        ss >> x >> tmp; 
+        z.setRe(tmp);
+        ss >> tmp >> x >> x;
+        z.setIm(tmp);
+    }
+    else if (regex_search(input, wynik, im_only))
+    {
+        z.setRe(0);
+        ss >> x >> tmp >> x >> x;
+        z.setIm(tmp);
+    }
+    else if (regex_search(input, wynik, im_only_i))
+    {
+        z.setRe(0);
+        z.setIm(1);
+        ss >> x >> x >> x;
+    }
+    else if (regex_search(input, wynik, im_only_mi))
+    {
+        z.setRe(0);
+        z.setIm(-1);
+        ss >> x >> x >> x >> x;
+    }
+    else if (regex_search(input, wynik, re_only))
+    {
+        ss >> x >> tmp >> x;
+        z.setRe(tmp);
+        z.setIm(0);
+    }
+    else
+    {
+        strm.setstate(ios::failbit);
+    }
+
+    return strm;
+}
+
+std::ostream &operator<<(std::ostream &strm, const LZ &z)
+{
+    strm << "(" << z.getRe() << std::showpos << z.getIm() << std::noshowpos << "i)";
+    return strm;
 }
