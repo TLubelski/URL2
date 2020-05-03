@@ -33,6 +33,8 @@ public:
 
     TYP operator*(const Wektor &W2) const; //iloczyn skalarny
 
+    Wektor operator/(TYP dzielnik) const;
+
     /*API*/
     double dlugosc() const;
 };

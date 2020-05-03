@@ -110,10 +110,7 @@ Wektor<TYP, ROZMIAR> MacierzKw<TYP, ROZMIAR>::operator*(const Wektor<TYP, ROZMIA
     Wektor<TYP, ROZMIAR> temp;
     for (int i = 0; i < ROZMIAR; i++)
     {
-        for (int j = 0; j < ROZMIAR; j++)
-        {
-            temp[i] += tab[i][j] * W2[j]; 
-        }
+        temp[i] = tab[i] * W2;
     }
     return temp;
 }
@@ -208,6 +205,17 @@ TYP MacierzKw<TYP, ROZMIAR>::wyznacznik(Wyz metoda) const
 }
 
 template <typename TYP, int ROZMIAR>
+void MacierzKw<TYP, ROZMIAR>::zamien_wiersze(int i1, int i2)
+{
+    Wektor<TYP,ROZMIAR> temp;
+
+    temp = tab[i1];
+    tab[i1] = tab[i2];
+    tab[i2] = temp;
+}
+
+
+template <typename TYP, int ROZMIAR>
 MacierzKw<TYP, ROZMIAR> MacierzKw<TYP, ROZMIAR>::odwrotnosc() const
 {
     MacierzKw temp = *this;
@@ -228,8 +236,19 @@ MacierzKw<TYP, ROZMIAR> MacierzKw<TYP, ROZMIAR>::odwrotnosc() const
         {
             if ( cmp(temp[i][i], 0) )
             {
-                cerr << "[!]Dzielenie przez 0" << endl;
-                exit(1);
+                bool zero = true;
+                for(int k = i+1; k < ROZMIAR && zero; k++)
+                {
+                    temp.zamien_wiersze(i, k);
+                    dolaczona.zamien_wiersze(i,k);
+                    if( !cmp(temp[i][i], 0) )
+                        zero = false;
+                }
+                if( cmp(temp[i][i], 0) )
+                {
+                    cerr << "[!]Dzielenie przez 0" << endl;
+                    exit(1);
+                }
             }
             mnoznik = (-1) * temp[j][i] / temp[i][i]; //obliczanie mnoznika  wiersza
             temp[j] += mnoznik * temp[i];       //dodwawanie pomnozonego wiersza by uzyskac 0
@@ -256,8 +275,7 @@ MacierzKw<TYP, ROZMIAR> MacierzKw<TYP, ROZMIAR>::odwrotnosc() const
     //do jednostkowej
     for(int i = 0; i < ROZMIAR; i++)
     {
-        dolaczona[i] = (1.0 / temp[i][i]) * dolaczona[i];
-        temp[i] = (1.0 / temp[i][i]) * temp[i];
+        dolaczona[i] =  dolaczona[i] / temp[i][i];
     }
 
     return dolaczona;

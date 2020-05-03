@@ -17,6 +17,7 @@ private:
     TYP w_gauss() const; //pojawil sie problem z dokladnoscia double
     TYP w_bareiss() const;
     TYP w_sarruss() const;
+    void zamien_wiersze(int i1, int i2);
 
 public:
     /*KONSTRUKTORY*/

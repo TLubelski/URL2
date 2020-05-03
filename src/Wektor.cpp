@@ -109,6 +109,18 @@ TYP Wektor<TYP, ROZMIAR>::operator*(const Wektor &W2) const //iloczyn skalarny
     return temp; 
 }
 
+template <typename TYP, int ROZMIAR>
+Wektor<TYP, ROZMIAR> Wektor<TYP, ROZMIAR>::operator/(TYP dzielnik) const //iloczyn skalarny
+{
+    Wektor temp;
+    for (int i = 0; i < ROZMIAR; i++)
+    {
+        temp[i] = tab[i] / dzielnik;
+    }
+    return temp;
+}
+
+
 /*API*/
 
 template <typename TYP, int ROZMIAR>
