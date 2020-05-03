@@ -107,7 +107,7 @@ MacierzKw<TYP, ROZMIAR> MacierzKw<TYP, ROZMIAR>::operator*(const MacierzKw &M2) 
 template <typename TYP, int ROZMIAR>
 Wektor<TYP, ROZMIAR> MacierzKw<TYP, ROZMIAR>::operator*(const Wektor<TYP, ROZMIAR> &W2) const
 {
-    Wektor<TYP, ROZMIAR> temp(0,0,0);
+    Wektor<TYP, ROZMIAR> temp;
     for (int i = 0; i < ROZMIAR; i++)
     {
         for (int j = 0; j < ROZMIAR; j++)
@@ -136,7 +136,7 @@ template <typename TYP, int ROZMIAR>
 MacierzKw<TYP, ROZMIAR> MacierzKw<TYP, ROZMIAR>::schodkowa() const
 {
     MacierzKw temp = *this;
-    double mnoznik;
+    TYP mnoznik;
     for (int i = 0; i < ROZMIAR - 1; i++)
     {
         for (int j = i + 1; j < ROZMIAR; j++)
@@ -146,7 +146,7 @@ MacierzKw<TYP, ROZMIAR> MacierzKw<TYP, ROZMIAR>::schodkowa() const
                 cerr << "[!]Dzielenie przez 0" << endl;
                 exit(1);
             }
-            mnoznik = -temp[j][i] / temp[i][i]; //obliczanie mnoznika  wiersza
+            mnoznik = (-1) * temp[j][i] / temp[i][i]; //obliczanie mnoznika  wiersza
             temp[j] += mnoznik * temp[i]; //dodwawanie pomnozonego wiersza by uzyskac 0
         }
     }
@@ -169,9 +169,10 @@ MacierzKw<TYP, ROZMIAR> MacierzKw<TYP, ROZMIAR>::transpozycja() const
 }
 
 template <typename TYP, int ROZMIAR>
-double MacierzKw<TYP, ROZMIAR>::wyznacznik(Wyz metoda) const
+TYP MacierzKw<TYP, ROZMIAR>::wyznacznik(Wyz metoda) const
 {
-    double det = 0;
+    TYP det;
+    det = 0;
     
     if( ROZMIAR == 2) //macierz 2x2 na krzyz
     {
@@ -212,7 +213,7 @@ MacierzKw<TYP, ROZMIAR> MacierzKw<TYP, ROZMIAR>::odwrotnosc() const
     MacierzKw temp = *this;
     MacierzKw dolaczona;
     dolaczona.utworzI();
-    double mnoznik;
+    TYP mnoznik;
 
     if( cmp(temp.wyznacznik(), 0) )
     {
@@ -230,7 +231,7 @@ MacierzKw<TYP, ROZMIAR> MacierzKw<TYP, ROZMIAR>::odwrotnosc() const
                 cerr << "[!]Dzielenie przez 0" << endl;
                 exit(1);
             }
-            mnoznik = -temp[j][i] / temp[i][i]; //obliczanie mnoznika  wiersza
+            mnoznik = (-1) * temp[j][i] / temp[i][i]; //obliczanie mnoznika  wiersza
             temp[j] += mnoznik * temp[i];       //dodwawanie pomnozonego wiersza by uzyskac 0
             dolaczona[j] += mnoznik * dolaczona[i];
         }
@@ -246,7 +247,7 @@ MacierzKw<TYP, ROZMIAR> MacierzKw<TYP, ROZMIAR>::odwrotnosc() const
                 cerr << "[!]Dzielenie przez 0" << endl;
                 exit(1);
             }
-            mnoznik = -temp[j][i] / temp[i][i]; //obliczanie mnoznika  wiersza
+            mnoznik = (-1) * temp[j][i] / temp[i][i]; //obliczanie mnoznika  wiersza
             temp[j] += mnoznik * temp[i];       //dodwawanie pomnozonego wiersza by uzyskac 0
             dolaczona[j] += mnoznik * dolaczona[i];
         }
@@ -266,9 +267,10 @@ MacierzKw<TYP, ROZMIAR> MacierzKw<TYP, ROZMIAR>::odwrotnosc() const
 /***METODY WEWNETRZNE***/
 
 template <typename TYP, int ROZMIAR>
-double MacierzKw<TYP, ROZMIAR>::w_gauss() const
+TYP MacierzKw<TYP, ROZMIAR>::w_gauss() const
 {
-    double det = 1;
+    TYP det;
+    det = 1;
     MacierzKw temp = this->schodkowa();
 
     for (int i = 0; i < ROZMIAR; i++) //mnozenie po glownej przekatnej
@@ -278,7 +280,7 @@ double MacierzKw<TYP, ROZMIAR>::w_gauss() const
 }
 
 template <typename TYP, int ROZMIAR>
-double MacierzKw<TYP, ROZMIAR>::w_bareiss() const
+TYP MacierzKw<TYP, ROZMIAR>::w_bareiss() const
 {
     MacierzKw temp = *this;
 
@@ -303,9 +305,9 @@ double MacierzKw<TYP, ROZMIAR>::w_bareiss() const
 }
 
 template <typename TYP, int ROZMIAR>
-double MacierzKw<TYP, ROZMIAR>::w_sarruss() const
+TYP MacierzKw<TYP, ROZMIAR>::w_sarruss() const
 {
-    double det;
+    TYP det;
     det = (tab[0][0] * tab[1][1] * tab[2][2] + tab[0][1] * tab[1][2] * tab[2][0] + tab[0][2] * tab[1][0] * tab[2][1]);
     det -= (tab[0][2] * tab[1][1] * tab[2][0] + tab[0][0] * tab[1][2] * tab[2][1] + tab[0][1] * tab[1][0] * tab[2][2]);
     return det;
@@ -316,7 +318,7 @@ double MacierzKw<TYP, ROZMIAR>::w_sarruss() const
 template <typename TYP, int ROZMIAR>
 MacierzKw<TYP, ROZMIAR> operator*(TYP l1, const MacierzKw<TYP, ROZMIAR> M2) //mnozenie przez liczbe
 {
-    MacierzKw temp<TYP, ROZMIAR>;
+    MacierzKw<TYP, ROZMIAR> temp;
     for (int i = 0; i < ROZMIAR; i++)
         temp[i] = l1 * M2[i];
     return temp;

@@ -1,5 +1,5 @@
 #include "common.hh"
-#include "UklRowL.hh"
+#include "UklRowL.cpp"
 
 /*Wymuszenie kompilacji dla double*/
 template class UklRowL<double, _ROZMIAR>;

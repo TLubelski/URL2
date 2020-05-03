@@ -14,9 +14,9 @@ private:
     Wektor<TYP, ROZMIAR> tab[ROZMIAR]; //kazdemu wierszowi odpowiada wektor
 
     /*METODY WEWNETRZNE*/
-    double w_gauss() const; //pojawil sie problem z dokladnoscia double
-    double w_bareiss() const;
-    double w_sarruss() const;
+    TYP w_gauss() const; //pojawil sie problem z dokladnoscia double
+    TYP w_bareiss() const;
+    TYP w_sarruss() const;
 
 public:
     /*KONSTRUKTORY*/
@@ -47,7 +47,7 @@ public:
 
     MacierzKw transpozycja() const; 
 
-    double wyznacznik(Wyz metoda = Bareiss) const;
+    TYP wyznacznik(Wyz metoda = Bareiss) const;
 
     MacierzKw odwrotnosc() const; //WIP
 };
@@ -55,7 +55,7 @@ public:
 /*OPERATORY ZEWNETRZNE*/
 
 template <typename TYP, int ROZMIAR>
-MacierzKw<TYP,ROZMIAR> operator*(double l1, const MacierzKw<TYP,ROZMIAR> M2); //mnozenie macierzy przez liczbe
+MacierzKw<TYP,ROZMIAR> operator*(TYP l1, const MacierzKw<TYP,ROZMIAR> M2); //mnozenie macierzy przez liczbe
 
 template <typename TYP, int ROZMIAR>
 std::ostream &operator<<(std::ostream &strm, const MacierzKw<TYP,ROZMIAR> &M); //wyswietlanie wierszami

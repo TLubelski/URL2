@@ -142,7 +142,7 @@ double Wektor<LZ, _ROZMIAR>::dlugosc() const
 /*OPERATORY ZEWNETRZNE*/
 
 template <typename TYP, int ROZMIAR>
-Wektor<TYP, ROZMIAR> operator*(double l1, const Wektor<TYP, ROZMIAR> W2) //mnozenie przez liczbe
+Wektor<TYP, ROZMIAR> operator*(TYP l1, const Wektor<TYP, ROZMIAR> W2) //mnozenie przez liczbe
 {
     Wektor<TYP,ROZMIAR> temp;
     for (int i = 0; i < ROZMIAR; i++)
@@ -165,12 +165,12 @@ ostream & operator<<(ostream &strm, const Wektor<TYP,ROZMIAR> &W)
 
 template <typename TYP, int ROZMIAR>
 istream & operator>>(istream &strm, Wektor<TYP,ROZMIAR> &W)
-{   
+{
     string wzor_s = "\\|";
-    string liczba = "-?\\d+.?\\d*";
+    string liczba = "\\-?\\d+.?\\d*";
 
     //zbudowanie wzoru regexa o odpowienim rozmiarze
-    for (int i = 0; i < ROZMIAR-1; i++) 
+    for (int i = 0; i < ROZMIAR - 1; i++)
     {
         wzor_s += liczba;
         wzor_s += "\\s";
@@ -183,11 +183,11 @@ istream & operator>>(istream &strm, Wektor<TYP,ROZMIAR> &W)
     stringstream ss;
     string input;
     smatch wynik;
-    getline(strm,input);
+    getline(strm, input);
     ss << input;
 
     char trash;
-    if( regex_search(input, wynik, wzor) ) //oczyt danych jesli pasuja
+    if (regex_search(input, wynik, wzor)) //oczyt danych jesli pasuja
     {
         ss >> trash;
         for (int i = 0; i < ROZMIAR; i++)

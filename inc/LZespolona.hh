@@ -51,6 +51,7 @@ public:
 };
 
 LZ operator*(double mnoznik,const LZ &z);
+LZ operator/(double dzielna, const LZ &z);
 
 /*Op strumieniowe*/
 std::istream &operator>>(std::istream &strm, LZ &z);

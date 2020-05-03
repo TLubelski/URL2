@@ -124,6 +124,11 @@ LZ operator*(double mnoznik, const LZ &z)
     return LZ(z.getRe() * mnoznik, z.getIm() * mnoznik);
 }
 
+LZ operator/(double dzielna, const LZ &z)
+{
+    return LZ(dzielna / z.getRe(), dzielna / z.getIm());
+}
+
 /*Op strumieniowe*/
 std::istream &operator>>(std::istream &strm, LZ &z)
 {

@@ -40,7 +40,7 @@ public:
 
 /*OPERATORY ZEWNETRZNE*/
 template <typename TYP, int ROZMIAR>
-Wektor<TYP, ROZMIAR> operator*(double l1, const Wektor<TYP, ROZMIAR> W2); //mnozenie przez liczbe
+Wektor<TYP, ROZMIAR> operator*(TYP l1, const Wektor<TYP, ROZMIAR> W2); //mnozenie przez liczbe
 
 template <typename TYP, int ROZMIAR>
 std::ostream &operator<<(std::ostream &strm, const Wektor<TYP, ROZMIAR> &W);
