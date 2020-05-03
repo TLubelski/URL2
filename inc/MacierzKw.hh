@@ -7,7 +7,7 @@ enum Wyz{Gauss, Sarruss, Bareiss}; //wybor metody liczenia wyznacznika
 
 
 /*Szablon opisujacy klase macierz kwadratowa*/
-template<typename TYP, unsigned int ROZMIAR>
+template<typename TYP, int ROZMIAR>
 class MacierzKw
 {
 private:
@@ -22,11 +22,10 @@ public:
     /*KONSTRUKTORY*/
     MacierzKw(){}
     MacierzKw(Wektor<TYP, ROZMIAR> *W); //przyjmuje tablice wektorow
-    MacierzKw(const Wektor<TYP, ROZMIAR> & W1,const Wektor<TYP, ROZMIAR> & W2,const Wektor<TYP, ROZMIAR> & W3); //przyjmuje 3 wektory
     
     /*OPERATORY*/
-    const Wektor<TYP, ROZMIAR> & operator[](unsigned int index) const;
-    Wektor<TYP, ROZMIAR> & operator[](unsigned int index);
+    const Wektor<TYP, ROZMIAR> & operator[](int index) const;
+    Wektor<TYP, ROZMIAR> & operator[](int index);
 
     bool operator==(const MacierzKw &M2) const;
     bool operator!=(const MacierzKw &M2) const;
@@ -54,10 +53,14 @@ public:
 };
 
 /*OPERATORY ZEWNETRZNE*/
-MacierzKw operator*(double l1, const MacierzKw M2); //mnozenie macierzy przez liczbe
 
-std::ostream & operator<<(std::ostream &strm, const MacierzKw &M); //wyswietlanie wierszami
-std::istream & operator>>(std::istream &strm, MacierzKw &M); //wczytywanie wierszami
+template <typename TYP, int ROZMIAR>
+MacierzKw<TYP,ROZMIAR> operator*(double l1, const MacierzKw<TYP,ROZMIAR> M2); //mnozenie macierzy przez liczbe
 
+template <typename TYP, int ROZMIAR>
+std::ostream &operator<<(std::ostream &strm, const MacierzKw<TYP,ROZMIAR> &M); //wyswietlanie wierszami
+
+template <typename TYP, int ROZMIAR>
+std::istream &operator>>(std::istream &strm, MacierzKw<TYP,ROZMIAR> &M); //wczytywanie wierszami
 
 #endif

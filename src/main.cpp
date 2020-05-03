@@ -1,14 +1,14 @@
 #include "common.hh"
 #include "Wektor.hh"
-//#include "MacierzKw.hh"
-//#include "UklRowL.hh"
+#include "MacierzKw.hh"
+#include "UklRowL.hh"
 
 #include <iostream>
 #include <fstream>
 
 using namespace std;
 
-typedef Wektor<LZ,5> WektZ;
+typedef Wektor<LZ,_ROZMIAR> WektZ;
 
 int main()
 {

@@ -2,48 +2,47 @@
 
 using namespace std;
 
-UklRowL::UklRowL(MacierzKw A, Wektor b)
-{
-    this->A = A;
-    this->b = b;
-}
-
-const Wektor & UklRowL::get_wektor_wolny() const
+template <typename TYP, int ROZMIAR>
+const Wektor<TYP, ROZMIAR> &UklRowL<TYP, ROZMIAR>::get_wektor_wolny() const
 {
     return b;
 }
 
-void UklRowL::set_wektor_wolny(const Wektor &W_n)
+template <typename TYP, int ROZMIAR>
+void UklRowL<TYP, ROZMIAR>::set_wektor_wolny(const Wektor<TYP, ROZMIAR> &W_n)
 {
     b = W_n;
 }
 
-const MacierzKw & UklRowL::get_macierz() const
+template <typename TYP, int ROZMIAR>
+const MacierzKw<TYP, ROZMIAR> &UklRowL<TYP, ROZMIAR>::get_macierz() const
 {
     return A;
 }
 
-
-void UklRowL::set_macierz(const MacierzKw &M_n)
+template <typename TYP, int ROZMIAR>
+void UklRowL<TYP, ROZMIAR>::set_macierz(const MacierzKw<TYP, ROZMIAR> &M_n)
 {
     A = M_n;
 }
 
-
-Wektor UklRowL::oblicz() const
+template <typename TYP, int ROZMIAR>
+Wektor<TYP, ROZMIAR> UklRowL<TYP, ROZMIAR>::oblicz() const
 {
     return ( A.odwrotnosc() * b );
 }
 
-Wektor UklRowL::wekt_bledu() const
+template <typename TYP, int ROZMIAR>
+Wektor<TYP, ROZMIAR> UklRowL<TYP, ROZMIAR>::wekt_bledu() const
 {
     return A * oblicz() - b;
 }
 
-ostream &operator<<(ostream &strm, const UklRowL &Uklad)
+template <typename TYP, int ROZMIAR>
+ostream & operator<<(ostream &strm, const UklRowL<TYP, ROZMIAR> &Uklad)
 {
-    MacierzKw macierz = Uklad.get_macierz();
-    Wektor wolny = Uklad.get_wektor_wolny();
+    MacierzKw<TYP, ROZMIAR> macierz = Uklad.get_macierz();
+    Wektor<TYP, ROZMIAR> wolny = Uklad.get_wektor_wolny();
 
     for(int i = 0; i < ROZMIAR; i++)
     {
@@ -59,11 +58,11 @@ ostream &operator<<(ostream &strm, const UklRowL &Uklad)
     return strm;
 }
 
-
-istream &operator>>(istream &strm, UklRowL &Uklad)
+template <typename TYP, int ROZMIAR>
+istream & operator>>(istream &strm, UklRowL<TYP, ROZMIAR> &Uklad)
 {
-    MacierzKw temp_m;
-    Wektor temp_w;
+    MacierzKw<TYP, ROZMIAR> temp_m;
+    Wektor<TYP, ROZMIAR> temp_w;
 
     strm >> temp_m;
     temp_m = temp_m.transpozycja(); //powrot do postacie nietransponowanej

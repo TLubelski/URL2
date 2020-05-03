@@ -4,8 +4,8 @@
 
 #Name, headers, sources
 TARGET=URL2
-_DEPS=common.hh LZespolona.hh Wektor.hh #MacierzKw.hh UklRowL.hh
-_OBJ=common.o main.o LZespolona.o WektorComp.o #MacierzKwComp.o UklRowLComp.o
+_DEPS=common.hh LZespolona.hh Wektor.hh MacierzKw.hh UklRowL.hh
+_OBJ=common.o main.o LZespolona.o WektorComp.o MacierzKwComp.o UklRowLComp.o
 
 ####DIRS###
 TRG_DIR=./

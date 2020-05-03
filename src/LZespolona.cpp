@@ -119,6 +119,10 @@ bool LZ::operator!=(const LZ &z2) const
     return !(*this == z2);
 }
 
+LZ operator*(double mnoznik, const LZ &z)
+{
+    return LZ(z.getRe() * mnoznik, z.getIm() * mnoznik);
+}
 
 /*Op strumieniowe*/
 std::istream &operator>>(std::istream &strm, LZ &z)

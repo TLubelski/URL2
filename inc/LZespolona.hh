@@ -50,6 +50,8 @@ public:
     bool operator!=(const LZ &z2) const;
 };
 
+LZ operator*(double mnoznik,const LZ &z);
+
 /*Op strumieniowe*/
 std::istream &operator>>(std::istream &strm, LZ &z);
 std::ostream &operator<<(std::ostream &strm, const LZ &z);

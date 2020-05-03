@@ -6,28 +6,18 @@
 using namespace std;
 
 /***KONSTRUKTORY***/
-MacierzKw::MacierzKw(Wektor *W)
+template <typename TYP, int ROZMIAR>
+MacierzKw<TYP, ROZMIAR>::MacierzKw(Wektor<TYP, ROZMIAR> *W)
 {
     for (int i = 0; i < ROZMIAR; i++)
         this->tab[i] = W[i];
 }
 
-MacierzKw::MacierzKw(const Wektor &W1, const Wektor &W2, const Wektor &W3)
-{
-    if(ROZMIAR != 3)
-    {
-        cerr << "[!] Incorrect constructor for size of MacierzKw" << endl;
-        exit(1);
-    }
-
-    tab[0] = W1;
-    tab[1] = W2;
-    tab[2] = W3;
-}
 
 /***OPERATORY***/
 
-const Wektor & MacierzKw::operator[](int index) const
+template <typename TYP, int ROZMIAR>
+const Wektor<TYP, ROZMIAR> & MacierzKw<TYP, ROZMIAR>::operator[](int index) const
 {
     if (index < 0 || index >= ROZMIAR)
     {
@@ -37,7 +27,8 @@ const Wektor & MacierzKw::operator[](int index) const
     return tab[index];
 }
 
-Wektor & MacierzKw::operator[](int index)
+template <typename TYP, int ROZMIAR>
+Wektor<TYP, ROZMIAR> & MacierzKw<TYP, ROZMIAR>::operator[](int index)
 {
     if (index < 0 || index >= ROZMIAR)
     {
@@ -47,7 +38,8 @@ Wektor & MacierzKw::operator[](int index)
     return tab[index];
 }
 
-bool MacierzKw::operator==(const MacierzKw &M2) const
+template <typename TYP, int ROZMIAR>
+bool MacierzKw<TYP, ROZMIAR>::operator==(const MacierzKw &M2) const
 {
     bool wynik = true;
     for (int i = 0; i < ROZMIAR; i++)
@@ -58,12 +50,14 @@ bool MacierzKw::operator==(const MacierzKw &M2) const
     return wynik;
 }
 
-bool MacierzKw::operator!=(const MacierzKw &M2) const
+template <typename TYP, int ROZMIAR>
+bool MacierzKw<TYP, ROZMIAR>::operator!=(const MacierzKw &M2) const
 {
     return !(*this == M2);
 }
 
-MacierzKw MacierzKw::operator+(const MacierzKw &M2) const
+template <typename TYP, int ROZMIAR>
+MacierzKw<TYP, ROZMIAR> MacierzKw<TYP, ROZMIAR>::operator+(const MacierzKw &M2) const
 {
     MacierzKw temp;
     for (int i = 0; i < ROZMIAR; i++)
@@ -71,13 +65,15 @@ MacierzKw MacierzKw::operator+(const MacierzKw &M2) const
     return temp;
 }
 
-const MacierzKw & MacierzKw::operator+=(const MacierzKw &M2)
+template <typename TYP, int ROZMIAR>
+const MacierzKw<TYP, ROZMIAR> &MacierzKw<TYP, ROZMIAR>::operator+=(const MacierzKw &M2)
 {
     *this = *this + M2;
     return *this;
 }
 
-MacierzKw MacierzKw::operator-(const MacierzKw &M2) const
+template <typename TYP, int ROZMIAR>
+MacierzKw<TYP, ROZMIAR> MacierzKw<TYP, ROZMIAR>::operator-(const MacierzKw &M2) const
 {
     MacierzKw temp;
     for (int i = 0; i < ROZMIAR; i++)
@@ -85,13 +81,15 @@ MacierzKw MacierzKw::operator-(const MacierzKw &M2) const
     return temp;
 }
 
-const MacierzKw & MacierzKw::operator-=(const MacierzKw &M2)
+template <typename TYP, int ROZMIAR>
+const MacierzKw<TYP, ROZMIAR> &MacierzKw<TYP, ROZMIAR>::operator-=(const MacierzKw &M2)
 {
     *this = *this - M2;
     return *this;
 }
 
-MacierzKw MacierzKw::operator*(const MacierzKw &M2) const
+template <typename TYP, int ROZMIAR>
+MacierzKw<TYP, ROZMIAR> MacierzKw<TYP, ROZMIAR>::operator*(const MacierzKw &M2) const
 {
     MacierzKw temp;
     for (int i = 0; i < ROZMIAR; i++)
@@ -106,9 +104,10 @@ MacierzKw MacierzKw::operator*(const MacierzKw &M2) const
     return temp;
 }
 
-Wektor MacierzKw::operator*(const Wektor &W2) const
+template <typename TYP, int ROZMIAR>
+Wektor<TYP, ROZMIAR> MacierzKw<TYP, ROZMIAR>::operator*(const Wektor<TYP, ROZMIAR> &W2) const
 {
-    Wektor temp(0,0,0);
+    Wektor<TYP, ROZMIAR> temp(0,0,0);
     for (int i = 0; i < ROZMIAR; i++)
     {
         for (int j = 0; j < ROZMIAR; j++)
@@ -121,7 +120,8 @@ Wektor MacierzKw::operator*(const Wektor &W2) const
 
 /*****API******/
 
-void MacierzKw::utworzI()
+template <typename TYP, int ROZMIAR>
+void MacierzKw<TYP, ROZMIAR>::utworzI()
 {
     for (int i = 0; i < ROZMIAR; i++)
     {
@@ -132,7 +132,8 @@ void MacierzKw::utworzI()
     }
 }
 
-MacierzKw MacierzKw::schodkowa() const
+template <typename TYP, int ROZMIAR>
+MacierzKw<TYP, ROZMIAR> MacierzKw<TYP, ROZMIAR>::schodkowa() const
 {
     MacierzKw temp = *this;
     double mnoznik;
@@ -153,7 +154,8 @@ MacierzKw MacierzKw::schodkowa() const
 
 }
 
-MacierzKw MacierzKw::transpozycja() const
+template <typename TYP, int ROZMIAR>
+MacierzKw<TYP, ROZMIAR> MacierzKw<TYP, ROZMIAR>::transpozycja() const
 {
     MacierzKw temp;
     for (int i = 0; i < ROZMIAR; i++)
@@ -166,7 +168,8 @@ MacierzKw MacierzKw::transpozycja() const
     return temp;
 }
 
-double MacierzKw::wyznacznik(Wyz metoda) const
+template <typename TYP, int ROZMIAR>
+double MacierzKw<TYP, ROZMIAR>::wyznacznik(Wyz metoda) const
 {
     double det = 0;
     
@@ -203,8 +206,8 @@ double MacierzKw::wyznacznik(Wyz metoda) const
     return det;
 }
 
-
-MacierzKw MacierzKw::odwrotnosc() const
+template <typename TYP, int ROZMIAR>
+MacierzKw<TYP, ROZMIAR> MacierzKw<TYP, ROZMIAR>::odwrotnosc() const
 {
     MacierzKw temp = *this;
     MacierzKw dolaczona;
@@ -262,7 +265,8 @@ MacierzKw MacierzKw::odwrotnosc() const
 
 /***METODY WEWNETRZNE***/
 
-double MacierzKw::w_gauss() const
+template <typename TYP, int ROZMIAR>
+double MacierzKw<TYP, ROZMIAR>::w_gauss() const
 {
     double det = 1;
     MacierzKw temp = this->schodkowa();
@@ -273,7 +277,8 @@ double MacierzKw::w_gauss() const
     return det;
 }
 
-double MacierzKw::w_bareiss() const
+template <typename TYP, int ROZMIAR>
+double MacierzKw<TYP, ROZMIAR>::w_bareiss() const
 {
     MacierzKw temp = *this;
 
@@ -297,7 +302,8 @@ double MacierzKw::w_bareiss() const
     return temp[ROZMIAR - 1][ROZMIAR - 1];
 }
 
-double MacierzKw::w_sarruss() const
+template <typename TYP, int ROZMIAR>
+double MacierzKw<TYP, ROZMIAR>::w_sarruss() const
 {
     double det;
     det = (tab[0][0] * tab[1][1] * tab[2][2] + tab[0][1] * tab[1][2] * tab[2][0] + tab[0][2] * tab[1][0] * tab[2][1]);
@@ -307,15 +313,17 @@ double MacierzKw::w_sarruss() const
 
 /***OPERATORY ZEWNETRZNE***/
 
-MacierzKw operator*(double l1, const MacierzKw M2) //mnozenie przez liczbe
+template <typename TYP, int ROZMIAR>
+MacierzKw<TYP, ROZMIAR> operator*(TYP l1, const MacierzKw<TYP, ROZMIAR> M2) //mnozenie przez liczbe
 {
-    MacierzKw temp;
+    MacierzKw temp<TYP, ROZMIAR>;
     for (int i = 0; i < ROZMIAR; i++)
         temp[i] = l1 * M2[i];
     return temp;
 }
 
-std::ostream & operator<<(std::ostream &strm, const MacierzKw &M)
+template <typename TYP, int ROZMIAR>
+std::ostream &operator<<(std::ostream &strm, const MacierzKw<TYP, ROZMIAR> &M)
 {
     for(int i =0; i < ROZMIAR; i++)
     {
@@ -324,8 +332,8 @@ std::ostream & operator<<(std::ostream &strm, const MacierzKw &M)
     return strm;
 }
 
-
-std::istream & operator>>(std::istream &strm, MacierzKw &M)
+template <typename TYP, int ROZMIAR>
+std::istream &operator>>(std::istream &strm, MacierzKw<TYP, ROZMIAR> &M)
 {
     for (int i = 0; i < ROZMIAR; i++)
     {

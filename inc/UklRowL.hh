@@ -6,28 +6,32 @@
 
 #include <iostream>
 
+template<typename TYP, int ROZMIAR>
 class UklRowL
 {
 private:
-    MacierzKw A;
-    Wektor b;
+    MacierzKw<TYP, ROZMIAR> A;
+    Wektor<TYP, ROZMIAR> b;
 
 public:
     UklRowL(){}
-    UklRowL(MacierzKw A, Wektor b);
+    UklRowL(MacierzKw<TYP, ROZMIAR> _A, Wektor<TYP, ROZMIAR> _b) : A(_A), b(_b){};
 
-    const Wektor & get_wektor_wolny() const;
-    void set_wektor_wolny(const Wektor & W_n);
+    const Wektor<TYP, ROZMIAR> &get_wektor_wolny() const;
+    void set_wektor_wolny(const Wektor<TYP, ROZMIAR> &W_n);
 
-    const MacierzKw & get_macierz() const;
-    void set_macierz(const MacierzKw & M_n);
+    const MacierzKw<TYP, ROZMIAR> &get_macierz() const;
+    void set_macierz(const MacierzKw<TYP, ROZMIAR> &M_n);
 
-    Wektor oblicz() const;
+    Wektor<TYP, ROZMIAR> oblicz() const;
 
-    Wektor wekt_bledu() const;
+    Wektor<TYP, ROZMIAR> wekt_bledu() const;
 };
 
-std::ostream &operator<<(std::ostream &strm, const UklRowL &Uklad);
-std::istream &operator>>(std::istream &strm, UklRowL &Uklad);
+template <typename TYP, int ROZMIAR>
+std::ostream & operator<<(std::ostream &strm, const UklRowL<TYP, ROZMIAR> &Uklad);
+
+template <typename TYP, int ROZMIAR>
+std::istream & operator>>(std::istream &strm, UklRowL<TYP, ROZMIAR> &Uklad);
 
 #endif
